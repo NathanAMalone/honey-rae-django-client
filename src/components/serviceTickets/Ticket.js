@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { fetchIt } from "../../utils/fetchIt"
 import { isStaff } from "../../utils/isStaff"
+import { ticketStatus } from "./TicketStatus"
 
 export const Ticket = () => {
     const [ticket, loadTicket] = useState({})
@@ -51,15 +52,6 @@ export const Ticket = () => {
         ).then(fetchTicket)
     }
 
-    const ticketStatus = () => {
-        if (ticket.date_completed === null) {
-            if (ticket.employee) {
-                return <span className="status--in-progress">In progress</span>
-            }
-            return <span className="status--new">Unclaimed</span>
-        }
-        return <span className="status--completed">Done</span>
-    }
 
     const employeePicker = (ticket) => {
         if (isStaff()) {
@@ -95,7 +87,7 @@ export const Ticket = () => {
                         }
                     </div>
                     <div className="footerItem">
-                        { ticketStatus() }
+                        { ticketStatus(ticket) }
                     </div>
                     {
                         isStaff()
