@@ -9,7 +9,7 @@ export const CustomerList = () => {
         () => {
             fetchIt("http://localhost:8000/customers")
                 .then(setCustomers)
-                // .catch(() => setCustomers([]))
+                .catch(() => setCustomers([]))
         }, []
     )
 
