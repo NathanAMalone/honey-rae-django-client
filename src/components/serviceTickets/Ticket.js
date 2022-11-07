@@ -52,6 +52,24 @@ export const Ticket = () => {
         ).then(fetchTicket)
     }
 
+    const markTicketDone = (evt) => {
+        const newDate = new Date()
+        const month = String(newDate.getUTCMonth() + 1).padStart(2, '0')
+        const date = String(newDate.getUTCDate()).padStart(2, '0')
+        const year = newDate.getUTCFullYear()
+        const today = year + "-" + month + "-" + date
+
+        const markedTicket = {...ticket, dateCompleted: today }
+
+        fetchIt(
+            `http://localhost:8000/tickets/${ticketId}`,
+            {
+                method: "PUT",
+                body: JSON.stringify(markedTicket)
+            }
+        ).then(fetchTicket)
+    }
+
 
     const employeePicker = (ticket) => {
         if (isStaff()) {
@@ -91,8 +109,8 @@ export const Ticket = () => {
                     </div>
                     {
                         isStaff()
-                            ? ""
-                            : <button onClick={deleteTicket}>Delete</button>
+                        ? <button onClick={markTicketDone}>Mark Done</button>
+                        : <button onClick={deleteTicket}>Delete</button>
                     }
                 </footer>
 
