@@ -54,9 +54,9 @@ export const Ticket = () => {
 
     const markTicketDone = (evt) => {
         const newDate = new Date()
-        const month = String(newDate.getUTCMonth() + 1).padStart(2, '0')
-        const date = String(newDate.getUTCDate()).padStart(2, '0')
-        const year = newDate.getUTCFullYear()
+        const month = String(newDate.getMonth() + 1).padStart(2, '0')
+        const date = String(newDate.getDate()).padStart(2, '0')
+        const year = newDate.getFullYear()
         const today = year + "-" + month + "-" + date
 
         const markedTicket = {...ticket, dateCompleted: today }
