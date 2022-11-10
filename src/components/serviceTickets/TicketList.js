@@ -10,6 +10,7 @@ export const TicketList = () => {
     const [active, setActive] = useState("")
     const { toggle, setOriginal, condensed: tickets } = useCondensed({ limit: 40, field: "description" })
     const history = useHistory()
+    const [searchTerms, updateSearchTerms] = useState("")
 
     useEffect(() => {
         fetchIt("http://localhost:8000/tickets")
@@ -47,6 +48,14 @@ export const TicketList = () => {
             .catch(() => setOriginal([]))
     }
 
+    const searchTickets = (search) => {
+        fetchIt(`http://localhost:8000/tickets?search=${search}`)
+            .then((tickets) => {
+                setOriginal(tickets)
+            })
+            .catch(() => setOriginal([]))
+    }
+
     return <>
         <div>
             <button onClick={() => filterTickets("done")}>Show Done</button>
@@ -57,8 +66,14 @@ export const TicketList = () => {
         {
             isStaff()
             ?<div>
-                <input type={"text"} placeholder="Enter Search Terms"/>
-                <button>Search</button>
+                <input type={"text"} 
+                    placeholder="Search Ticket Descriptions"
+                    onChange={(evt) => {
+                        const searchTerm = evt.target.value
+                        updateSearchTerms(searchTerm)
+                    }}
+                />
+                <button onClick={() => searchTickets(searchTerms)}>Search</button>
             
             </div>
             :""
